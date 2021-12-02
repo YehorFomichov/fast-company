@@ -1,9 +1,13 @@
-import react from "react";
+import react, { useState } from "react";
 import api from "../api";
 
 const Users = () => {
-  console.log(api.users.fetchAll());
-  return <h1>Users</h1>;
+  const [users, setUsers] = useState(api.users.fetchAll());
+  const handleDelete = (userId) => {};
+  const renderPhrase = (number) => {};
+  // return (
+  //   ...
+  // )
 };
 
 export default Users;
