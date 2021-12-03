@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import React, { useState } from "react";
 import api from "../api";
 
 const Users = () => {
@@ -66,7 +66,7 @@ const Users = () => {
             <button
               type="button"
               className="btn btn-danger"
-              onClick={() => handleDelete(user._id)}
+              onClick={handleDelete.bind(this, user._id)}
             >
               delete
             </button>
@@ -75,6 +75,10 @@ const Users = () => {
       ))
     );
   };
+  const changeTitle = (event) => {
+    console.log(event.target.value);
+  };
+
   return (
     <>
       <h1>{renderPhrase(users.length)}</h1>
@@ -82,6 +86,8 @@ const Users = () => {
         <thead>{renderHeaders()}</thead>
         <tbody>{renderUsers()}</tbody>
       </table>
+      <input type="text" onChange={changeTitle} />
+      <h1></h1>
     </>
   );
 };
