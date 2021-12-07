@@ -7,4 +7,4 @@ const App = () => {
   return <Users />;
 };
 
-reactDom.render(<App />, getElementById("root"));
+reactDom.render(<App />, document.getElementById("root"));
