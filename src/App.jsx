@@ -10,12 +10,11 @@ const App = () => {
   };
   const toggleHandleBookmark = (userId) => {
     setUsers((prevState) =>
-      prevState.forEach((user) => {
-        if (user._id === userId) {
-          user.bookmark === true
-            ? (user.bookmark = false)
-            : (user.bookmark = true);
+      prevState.map((user) => {
+        if (userId === user._id) {
+          return { ...user, bookmark: !user.bookmark };
         }
+        return user;
       })
     );
   };
