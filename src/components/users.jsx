@@ -1,32 +1,32 @@
-import React, { useState } from "react";
-import api from "../api";
-import SearchStatus from "./searchStatus";
+import React from "react";
 import User from "./user";
 
-const Users = () => {
-  const [users, setUsers] = useState(api.users.fetchAll());
-  const handleDelete = (userId) => {
-    setUsers((prevState) => prevState.filter((user) => userId !== user._id));
-  };
-  const handleFavorite = (elementId) => {
-    const newState = users;
-    if (newState[elementId].isFavorite === true) {
-      newState[elementId].isFavorite = false;
-    } else if (newState[elementId].isFavorite === false) {
-      newState[elementId].isFavorite = true;
-    } else newState[elementId].isFavorite = true;
-    setUsers(newState);
-    console.log(users);
+const Users = (props) => {
+  const renderHeader = () => {
+    return (
+      props.users.length !== 0 && (
+        <tr>
+          <th scope="col">Имя</th>
+          <th scope="col">Качества</th>
+          <th scope="col">Профессия</th>
+          <th scope="col">Встретился, раз</th>
+          <th scope="col">Оценка</th>
+          <th scope="col">Избранное</th>
+        </tr>
+      )
+    );
   };
   return (
-    <>
-      <SearchStatus numberOfUsers={users.length} />
-      <User
-        users={users}
-        onDelete={handleDelete}
-        onFavorite={handleFavorite.bind(this)}
-      />
-    </>
+    <table className="table">
+      <thead>{renderHeader()}</thead>
+      <tbody>
+        <User
+          users={props.users}
+          onDelete={props.onDelete}
+          onFavorite={props.onFavorite}
+        />
+      </tbody>
+    </table>
   );
 };
 
