@@ -12,7 +12,7 @@ const App = () => {
     setUsers((prevState) =>
       prevState.map((user) => {
         if (userId === user._id) {
-          return { ...user, bookmark: !user.bookmark };
+          user.bookmark = !user.bookmark;
         }
         return user;
       })
