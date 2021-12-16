@@ -14,7 +14,11 @@ module.exports = {
   plugins: ['react'],
   rules: {
     indent: ['off'],
-    'space-before-function-paren': ['error', 'never'],
+    'space-before-function-paren': [
+      'error',
+      { anonymous: 'always', named: 'never' }
+    ],
+
     'multiline-ternary': [0]
   }
 }

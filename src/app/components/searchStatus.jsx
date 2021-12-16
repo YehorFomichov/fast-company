@@ -19,7 +19,7 @@ const SearchStatus = ({ numberOfUsers }) => {
       <span className='badge bg-danger'>{getCase(number)}</span>
     )
   }
-  return <h1>{renderPhrase(numberOfUsers)}</h1>
+  return <h3>{renderPhrase(numberOfUsers)}</h3>
 }
 SearchStatus.propTypes = {
   numberOfUsers: PropTypes.number.isRequired
