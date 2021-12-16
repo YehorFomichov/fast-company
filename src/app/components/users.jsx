@@ -11,9 +11,7 @@ const Users = ({ users: allUsers, onDelete, onFavorite }) => {
   const [professions, setProfessions] = useState()
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedProf, setSelectedProf] = useState()
-
   const handleProfessionSelect = (item) => {
-    console.log(item)
     setSelectedProf(item)
   }
   useEffect(() => {
@@ -23,16 +21,14 @@ const Users = ({ users: allUsers, onDelete, onFavorite }) => {
     api.professions.fetchAll().then((data) => {
       setProfessions(data)
     })
-    console.log('render')
   }, [])
-
   const pageSize = 2
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex)
   }
   const filteredUsers =
     selectedProf && selectedProf._id
-      ? allUsers.filter((user) => user.profession === selectedProf)
+      ? allUsers.filter((user) => user.profession._id === selectedProf._id)
       : allUsers
   const count = filteredUsers.length
   const userCrop = paginate(filteredUsers, currentPage, pageSize)

@@ -11,19 +11,32 @@ export const GroupList = ({
   return (
     <div>
       <ul className='list-group'>
-        {Object.keys(items).map((item) => (
-          <li
-            className={
-              'list-group-item' +
-              (items[item] === selectedItem ? ' active' : '')
-            }
-            key={items[item][valueProperty]}
-            onClick={() => onItemSelect(items[item])}
-            role='button'
-          >
-            {items[item][contentProperty]}
-          </li>
-        ))}
+        {typeof items === 'object'
+          ? Object.keys(items).map((item) => (
+              <li
+                className={
+                  'list-group-item' +
+                  (items[item] === selectedItem ? ' active' : '')
+                }
+                key={items[item][valueProperty]}
+                onClick={() => onItemSelect(items[item])}
+                role='button'
+              >
+                {items[item][contentProperty]}
+              </li>
+            ))
+          : items.map((item, index) => (
+              <li
+                className={
+                  'list-group-item' + (item === selectedItem ? ' active' : '')
+                }
+                key={items[index][valueProperty]}
+                onClick={() => onItemSelect(items[index])}
+                role='button'
+              >
+                {items[index][contentProperty]}
+              </li>
+            ))}
       </ul>
     </div>
   )
