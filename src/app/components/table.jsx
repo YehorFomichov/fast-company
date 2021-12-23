@@ -5,7 +5,15 @@ import TableBody from './tableBody'
 
 export const Table = ({ onSort, currentSort, columns, data, children }) => {
   return (
-    <table className='table'>
+    <table
+      className='table table-hover'
+      style={{
+        width: '80vw',
+        backgroundColor: '#f0f2f5',
+        borderRadius: '10px 10px 0 0',
+        boxShadow: '8px 8px 1px 1px rgba(0, 0, 0, .2)'
+      }}
+    >
       {children || (
         <>
           <TableHeader {...{ onSort, currentSort, columns }} />

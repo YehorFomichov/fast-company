@@ -14,6 +14,11 @@ export const GroupList = ({
         {typeof items === 'object'
           ? Object.keys(items).map((item) => (
               <li
+                style={{
+                  backgroundColor: '#f0f2f5',
+                  fontWeight: 700,
+                  boxShadow: '3px 3px 1px 1px rgba(0, 0, 0, .2)'
+                }}
                 className={
                   'list-group-item' +
                   (items[item] === selectedItem ? ' active' : '')

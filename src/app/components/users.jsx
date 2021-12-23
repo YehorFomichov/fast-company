@@ -26,7 +26,7 @@ const Users = () => {
       setProfessions(data)
     })
   }, [])
-  const pageSize = 8
+  const pageSize = 10
 
   const [users, setUsers] = useState()
   useEffect(() => {
@@ -65,7 +65,17 @@ const Users = () => {
       setSelectedProf(undefined)
     }
     return (
-      <div className='d-flex'>
+      <div
+        className='d-flex table-sm'
+        style={{
+          // backgroundImage:
+          // 'url(https://unsplash.com/photos/aRf1hjEHlhA/download?ixid=MnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjQwMjc2NTkz&force=true&w=1920)'
+          backgroundColor: 'rgb(155 166 183 / 64%)',
+          paddingTop: '7vh',
+          height: '100vh',
+          backgroundPosition: 'center'
+        }}
+      >
         {professions && (
           <div className='d-flex flex-column flex-shrink-0 p-3'>
             <GroupList
