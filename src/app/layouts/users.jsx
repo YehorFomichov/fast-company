@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { Pagination } from './pagination'
+import { Pagination } from '../components/pagination'
 import paginate from '../utils/paginate'
-import { GroupList } from './groupList'
+import { GroupList } from '../components/groupList'
 import api from '../api'
-import SearchStatus from './searchStatus'
-import { UsersTable } from './usersTable'
+import SearchStatus from '../components/searchStatus'
+import { UsersTable } from '../components/usersTable'
 import _ from 'lodash'
+import { useParams } from 'react-router-dom'
+import User from '../components/user/user'
 
 const Users = () => {
+  const { userId } = useParams()
   const [professions, setProfessions] = useState()
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedProf, setSelectedProf] = useState()
@@ -53,7 +56,9 @@ const Users = () => {
   const handleSort = (item) => {
     setSortBy(item)
   }
-  if (users) {
+  if (userId) {
+    return <User userId={userId} onToggleBookmark={toggleHandleBookmark} />
+  } else if (users && !userId) {
     const filteredUsers =
       selectedProf && selectedProf._id
         ? users.filter((user) => user.profession._id === selectedProf._id)
@@ -68,9 +73,7 @@ const Users = () => {
       <div
         className='d-flex table-sm'
         style={{
-          // backgroundImage:
-          // 'url(https://unsplash.com/photos/aRf1hjEHlhA/download?ixid=MnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjQwMjc2NTkz&force=true&w=1920)'
-          backgroundColor: 'rgb(155 166 183 / 64%)',
+          // backgroundColor: 'rgb(155 166 183 / 64%)',
           paddingTop: '7vh',
           height: '100vh',
           backgroundPosition: 'center'
