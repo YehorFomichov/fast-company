@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 const NavBar = () => {
   return (
-    <div>
+    <div className='bg-dark text-white'>
       <ul className='nav'>
         <li className='nav-item'>
           <Link className='nav-link' to='/'>
