@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 const SearchStatus = ({ numberOfUsers }) => {
   const getCase = (number) => {
     const lastDigit = number % 10
@@ -14,27 +13,23 @@ const SearchStatus = ({ numberOfUsers }) => {
       return 'Никто с тобой не тусанет :('
     } else return `${number} человек тусанут с тобой сегодня`
   }
-  const renderPhrase = (number) => {
-    return number > 0 ? (
-      <Phrase color={'black'}>{getCase(number)}</Phrase>
-    ) : (
-      <Phrase color={'#9f2626'}>{getCase(number)}</Phrase>
-    )
-  }
-  const Phrase = styled.span`
-    text-align: center;
-    background-color: #e2e5eb;
-    font-size: 24px;
-    border-radius: 10px;
-    font-weight: 700;
-    width: 80vw;
-    color: ${(props) => props.color};
-    box-shadow: 8px 8px 1px 1px rgba(0, 0, 0, 0.2);
-    margin-bottom: 5px;
-  `
   return (
     <div className='d-flex justify-content-center'>
-      {renderPhrase(numberOfUsers)}
+      <span
+        style={{
+          textAlign: 'center',
+          backgroundColor: '#e2e5eb',
+          fontSize: '20px',
+          borderRadius: '10px',
+          fontWeight: 700,
+          width: '80vw',
+          color: 'black',
+          boxShadow: '8px 8px 1px 1px rgba(0, 0, 0, 0.2)',
+          marginBottom: '5px'
+        }}
+      >
+        {getCase(numberOfUsers)}
+      </span>
     </div>
   )
 }

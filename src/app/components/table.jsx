@@ -9,7 +9,7 @@ export const Table = ({ onSort, currentSort, columns, data, children }) => {
       className='table table-hover'
       style={{
         width: '80vw',
-        backgroundColor: '#f0f2f5',
+        backgroundColor: 'white',
         borderRadius: '10px 10px 0 0',
         boxShadow: '8px 8px 1px 1px rgba(0, 0, 0, .2)'
       }}
