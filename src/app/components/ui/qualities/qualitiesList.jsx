@@ -1,5 +1,5 @@
 import React from 'react'
-const QuailitiesList = (props) => {
+const QuailitiesList = ({ qualities }) => {
   const getQualityClass = (quality) => {
     let qualities = 'badge p-2 m-1 bg-'
     qualities += quality
@@ -16,7 +16,8 @@ const QuailitiesList = (props) => {
       </span>
     ))
   }
-  return renderQualities(props.qualities)
+
+  return renderQualities(qualities)
 }
 
 export default QuailitiesList

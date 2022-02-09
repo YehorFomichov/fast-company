@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import api from '../../api'
+import api from '../../../api'
 import PropTypes from 'prop-types'
-import QuailitiesList from '../qualitiesList'
-import Bookmark from '../bookmark'
-import './user.scss'
-const User = ({ userId, onToggleBookmark }) => {
+import QuailitiesList from '../../ui/qualities/qualitiesList'
+import Bookmark from '../../common/bookmark'
+import './userPage.scss'
+const UserPage = ({ userId, onToggleBookmark }) => {
   const [user, setUser] = useState()
   useEffect(() => {
     api.users.getById(userId).then((data) => {
@@ -63,9 +63,9 @@ const User = ({ userId, onToggleBookmark }) => {
     </>
   )
 }
-User.propTypes = {
+UserPage.propTypes = {
   userId: PropTypes.string.isRequired,
   onToggleBookmark: PropTypes.func
 }
 
-export default User
+export default UserPage

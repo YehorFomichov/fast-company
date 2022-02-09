@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Bookmark from './bookmark'
-import QuailitiesList from './qualitiesList'
-import { Table } from './table'
+import Bookmark from '../common/bookmark'
+import QuailitiesList from './qualities/qualitiesList'
+import { Table } from '../common/table/table'
 import { Link } from 'react-router-dom'
-export const UsersTable = ({
+const UsersTable = ({
   users,
   onSort,
   currentSort,
@@ -66,3 +66,4 @@ UsersTable.propTypes = {
   onToggleBookmark: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired
 }
+export default UsersTable

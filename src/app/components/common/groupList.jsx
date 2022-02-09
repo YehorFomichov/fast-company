@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-export const GroupList = ({
+const GroupList = ({
   items,
   valueProperty,
   contentProperty,
@@ -58,3 +58,4 @@ GroupList.propTypes = {
   onItemSelect: PropTypes.func,
   selectedItem: PropTypes.object
 }
+export default GroupList

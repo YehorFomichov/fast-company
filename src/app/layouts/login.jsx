@@ -1,78 +1,53 @@
-import React, { useEffect, useState } from 'react'
-import TextField from '../components/textField'
-import { validator } from '../utils/validator'
+import React, { useState } from 'react'
+import { useParams } from 'react-router-dom'
+import LoginForm from '../components/ui/loginForm'
+import RegisterForm from '../components/ui/registerForm'
 const Login = () => {
-  const [data, setData] = useState({ email: '', password: '' })
-  const [errors, setErrors] = useState({})
-  const handleChange = ({ target }) => {
-    setData((prevState) => ({ ...prevState, [target.name]: target.value }))
-  }
-  const validatorConfig = {
-    email: {
-      isRequired: { message: 'Электронная почта обязательна для заполнения' },
-      isEmail: { message: 'Email введен некорректно' }
-    },
-    password: {
-      isRequired: { message: 'Пароль обязателен для заполнения' },
-      isCapital: {
-        message: 'Пароль должен содержать как минимум одну заглавную букву'
-      },
-      isContainDigits: {
-        message: 'Пароль должен содержать как минимум один символ'
-      },
-      min: {
-        message: 'Пароль должен быть больше 8 символов',
-        value: 8
-      }
-    }
-  }
-  useEffect(() => {
-    validate()
-  }, [data])
-  const isValid = Object.keys(errors).length === 0
-  const validate = () => {
-    const errors = validator(data, validatorConfig)
-    setErrors(errors)
-    return Object.keys(errors).length === 0
-  }
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    const isValid = validate()
-    if (!isValid) {
-      return
-    }
-    console.log(data)
+  const { type } = useParams()
+  const [formType, setFormType] = useState(type === 'register' ? type : 'login')
+  const toggleFormType = () => {
+    setFormType((prevstate) =>
+      prevstate === 'register' ? 'login' : 'register'
+    )
   }
 
   return (
     <div className='container mt-5'>
       <div className='row'>
-        <div className='col-md-6 offset-md-3 shadow p-4'>
-          <h3 className='mb-4'>Login</h3>
-          <form onSubmit={handleSubmit}>
-            <TextField
-              label='Электронная почта:'
-              name='email'
-              onChange={handleChange}
-              value={data.email}
-              error={errors.email}
-            ></TextField>
-            <TextField
-              label='Пароль:'
-              type='password'
-              name='password'
-              onChange={handleChange}
-              value={data.password}
-              error={errors.password}
-            ></TextField>
-            <button
-              type='submit'
-              className='btn btn-primary w-100 mx-auto'
-              disabled={!isValid}
-            >
-              Submit
-            </button>
-          </form>
+        <div className='shadow p-4'>
+          {formType === 'register' ? (
+            <>
+              <h3 className='mb-4'>Register</h3>
+              <RegisterForm />
+              <p>
+                Already have account?{' '}
+                <a
+                  role='button'
+                  onClick={toggleFormType}
+                  style={{ color: 'blue' }}
+                >
+                  {' '}
+                  Sign In
+                </a>
+              </p>
+            </>
+          ) : (
+            <>
+              <h3 className='mb-4'>Login</h3>
+              <LoginForm />
+              <p>
+                {'Dont have account?'}
+                <a
+                  role='button'
+                  onClick={toggleFormType}
+                  style={{ color: 'blue' }}
+                >
+                  {' '}
+                  Sign Up
+                </a>
+              </p>
+            </>
+          )}
         </div>
       </div>
     </div>
