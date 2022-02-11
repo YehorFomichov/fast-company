@@ -17,9 +17,11 @@ const SelectField = ({
           value: options[optionName]._id
         }))
       : options.map((option) => ({ name: option.name, value: option._id }))
-
   const handleChange = ({ target }) => {
-    onChange({ name: target.name, value: target.value })
+    const returnValue = options.find((option) => {
+      return target.value === option._id
+    })
+    onChange({ name: name, value: returnValue })
   }
   const getInputClasses = () => {
     return 'form-select' + (error ? ' is-invalid' : '')
@@ -32,7 +34,7 @@ const SelectField = ({
       <select
         className={getInputClasses()}
         name={name}
-        value={value}
+        value={value.value}
         id={name}
         onChange={handleChange}
       >
@@ -52,7 +54,7 @@ const SelectField = ({
 }
 SelectField.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.object,
   onChange: PropTypes.func,
   error: PropTypes.string,
   name: PropTypes.string,

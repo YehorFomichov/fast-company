@@ -5,12 +5,15 @@ import NotFound from './components/page/notFound'
 import Login from './layouts/login'
 import Main from './layouts/main'
 import Users from './layouts/users'
+import UserEdit from './components/page/userEdit'
+
 const App = () => (
   <>
     <NavBar />
     <Switch>
       <Route path='/' exact component={Main}></Route>
       <Route path='/login:type?' component={Login}></Route>
+      <Route path='/users/:userId?/edit' component={UserEdit}></Route>
       <Route path='/users/:userId?' component={Users}></Route>
       <Route path='/404' component={NotFound}></Route>
       <Redirect to='/404' />

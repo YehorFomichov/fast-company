@@ -38,11 +38,6 @@ const UserPage = ({ userId, onToggleBookmark }) => {
                         <Bookmark status={user.bookmark} />
                       </button>
                     </li>
-                    <li>
-                      <Link to='/users' className='btn btn-primary'>
-                        Возврат
-                      </Link>
-                    </li>
                   </ul>
                 </div>
               </div>
@@ -56,6 +51,15 @@ const UserPage = ({ userId, onToggleBookmark }) => {
               </div>
             </div>
           </div>
+          <li>
+            <Link
+              to={'/users/' + userId + '/edit'}
+              className='btn btn-outline-dark'
+              userId={userId}
+            >
+              Изменить
+            </Link>
+          </li>
         </>
       ) : (
         <h3>Loading...</h3>

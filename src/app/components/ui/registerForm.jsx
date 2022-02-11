@@ -22,10 +22,19 @@ const RegisterForm = () => {
 
   useEffect(() => {
     api.professions.fetchAll().then((data) => {
-      setProfessions(data)
+      const updatedProfessions = Object.keys(data).map((profession) => ({
+        name: data[profession].name,
+        _id: data[profession]._id
+      }))
+      setProfessions(updatedProfessions)
     })
     api.qualities.fetchAll().then((data) => {
-      setQualities(data)
+      const updatedQualities = Object.keys(data).map((quality) => ({
+        _id: data[quality]._id,
+        name: data[quality].name,
+        color: data[quality].color
+      }))
+      setQualities(updatedQualities)
     })
   }, [])
 
@@ -66,6 +75,7 @@ const RegisterForm = () => {
   const isValid = Object.keys(errors).length === 0
   const validate = () => {
     const errors = validator(data, validatorConfig)
+    console.log(data)
     setErrors(errors)
     return Object.keys(errors).length === 0
   }
@@ -104,7 +114,7 @@ const RegisterForm = () => {
             error={errors.profession}
             options={professions}
             defaultOption='Choose...'
-            name='professions'
+            name='profession'
           />
         )}
         <RadioField
