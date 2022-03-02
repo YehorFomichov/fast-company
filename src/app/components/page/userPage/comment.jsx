@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import dateConvert from '../../../utils/dateConvert'
+import { Link } from 'react-router-dom'
 const Comment = ({ commentedUser, commentContent, publishingTime }) => {
+  console.log(commentedUser._id)
   return (
     <div className='bg-light card-body  mb-3'>
       <div className='row'>
@@ -22,7 +24,9 @@ const Comment = ({ commentedUser, commentContent, publishingTime }) => {
               <div className='mb-4'>
                 <div className='d-flex justify-content-between align-items-center'>
                   <p className='mb-1 '>
-                    {commentedUser.name} {''}
+                    <Link to={'/users/' + commentedUser._id}>
+                      {commentedUser.name}
+                    </Link>{' '}
                     <span className='small'>{dateConvert(publishingTime)}</span>
                   </p>
                   <button className='btn btn-sm text-primary d-flex align-items-center'>

@@ -13,10 +13,10 @@ const App = () => (
     <Switch>
       <Route path='/' exact component={Main}></Route>
       <Route path='/login:type?' component={Login}></Route>
-      <Route path='/users/:userId?/edit' component={UserEdit}></Route>
+      <Route path='/useredit/:userId?' component={UserEdit}></Route>
       <Route path='/users/:userId?' component={Users}></Route>
       <Route path='/404' component={NotFound}></Route>
-      <Redirect to='/404' />
+      <Redirect to='/users' />
     </Switch>
   </>
 )

@@ -4,8 +4,6 @@ import api from '../../../api'
 import PropTypes from 'prop-types'
 import QuailitiesList from '../../ui/qualities/qualitiesList'
 import Comments from './comments'
-// import Bookmark from '../../common/bookmark'
-// import './userPage.scss'
 const UserPage = ({ userId, onToggleBookmark }) => {
   const [user, setUser] = useState()
   useEffect(() => {
@@ -23,7 +21,7 @@ const UserPage = ({ userId, onToggleBookmark }) => {
                 <div className='card mb-3'>
                   <div className='card-body'>
                     <button className='position-absolute top-0 end-0 btn btn-light btn-sm'>
-                      <Link to={'/users/' + userId + '/edit'}>
+                      <Link to={'/useredit/' + userId}>
                         <i className='bi bi-gear'></i>
                       </Link>
                     </button>
@@ -81,8 +79,34 @@ const UserPage = ({ userId, onToggleBookmark }) => {
               </div>
               <div className='col-md-8'>
                 <div className='card mb-2'>
-                  {' '}
-                  <div className='card-body '>add comment</div>
+                  <div className='card-body'>
+                    <div>
+                      <h2>New comment</h2>
+                      <div className='mb-4'>
+                        <select className='form-select' name='userId' value=''>
+                          <option disabled value='' selected>
+                            Выберите пользователя
+                          </option>
+
+                          <option>Доктор</option>
+                          <option>Тусер</option>
+                        </select>
+                      </div>
+                      <div className='mb-4'>
+                        <label
+                          htmlFor='exampleFormControlTextarea1'
+                          className='form-label'
+                        >
+                          Сообщение
+                        </label>
+                        <textarea
+                          className='form-control'
+                          id='exampleFormControlTextarea1'
+                          rows='3'
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div className='card mb-3'>
                   <div className='card-body '>

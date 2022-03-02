@@ -13,6 +13,7 @@ const Comments = ({ userId }) => {
       setUsers(data)
     })
   }, [])
+
   const filterUser = (id) => {
     return users.find((user) => user._id === id)
   }
