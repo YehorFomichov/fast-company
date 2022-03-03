@@ -6,7 +6,7 @@ import './index.scss'
 import { BrowserRouter } from 'react-router-dom/cjs/react-router-dom.min'
 
 ReactDom.render(
-  <BrowserRouter forceRefresh={true}>
+  <BrowserRouter>
     <App />
   </BrowserRouter>,
   document.getElementById('root')
