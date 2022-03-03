@@ -11,12 +11,12 @@ const App = () => (
   <>
     <NavBar />
     <Switch>
-      <Route path='/fast-company' exact component={Main}></Route>
+      <Route path='/' exact component={Main}></Route>
       <Route path='/login:type?' component={Login}></Route>
       <Route path='/useredit/:userId?' component={UserEdit}></Route>
       <Route path='/users/:userId?' component={Users}></Route>
       <Route path='/404' component={NotFound}></Route>
-      <Redirect to='/users' />
+      <Redirect to='/404' />
     </Switch>
   </>
 )
