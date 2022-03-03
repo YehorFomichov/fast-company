@@ -5,7 +5,7 @@ const NavBar = () => {
     <div className='bg text-white'>
       <ul className='nav'>
         <li className='nav-item'>
-          <Link className='nav-link' to='/'>
+          <Link className='nav-link' to='/fast-company'>
             Main
           </Link>
         </li>
