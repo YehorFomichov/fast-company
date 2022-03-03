@@ -10,12 +10,12 @@ const NavBar = () => {
           </Link>
         </li>
         <li className='nav-item'>
-          <Link className='nav-link' to='/login'>
+          <Link className='nav-link' to='/fast-company/login'>
             Login
           </Link>
         </li>
         <li className='nav-item'>
-          <Link className='nav-link' to='/users'>
+          <Link className='nav-link' to='/fast-company/users'>
             Users
           </Link>
         </li>

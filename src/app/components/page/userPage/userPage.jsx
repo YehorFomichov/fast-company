@@ -21,7 +21,7 @@ const UserPage = ({ userId, onToggleBookmark }) => {
                 <div className='card mb-3'>
                   <div className='card-body'>
                     <button className='position-absolute top-0 end-0 btn btn-light btn-sm'>
-                      <Link to={'/useredit/' + userId}>
+                      <Link to={'/fast-company/useredit/' + userId}>
                         <i className='bi bi-gear'></i>
                       </Link>
                     </button>

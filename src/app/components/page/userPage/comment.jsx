@@ -24,7 +24,7 @@ const Comment = ({ commentedUser, commentContent, publishingTime }) => {
               <div className='mb-4'>
                 <div className='d-flex justify-content-between align-items-center'>
                   <p className='mb-1 '>
-                    <Link to={'/users/' + commentedUser._id}>
+                    <Link to={'/fast-company/users/' + commentedUser._id}>
                       {commentedUser.name}
                     </Link>{' '}
                     <span className='small'>{dateConvert(publishingTime)}</span>
