@@ -8,43 +8,40 @@ const GroupList = ({
   onItemSelect,
   selectedItem
 }) => {
-  return (
-    <div>
+  if (!Array.isArray(items)) {
+    return (
       <ul className='list-group'>
-        {typeof items === 'object'
-          ? Object.keys(items).map((item) => (
-              <li
-                style={{
-                  backgroundColor: '#f0f2f5',
-                  fontWeight: 700,
-                  boxShadow: '3px 3px 1px 1px rgba(0, 0, 0, .2)',
-                  margin: '1px'
-                }}
-                className={
-                  'list-group-item' +
-                  (items[item] === selectedItem ? ' active' : '')
-                }
-                key={items[item][valueProperty]}
-                onClick={() => onItemSelect(items[item])}
-                role='button'
-              >
-                {items[item][contentProperty]}
-              </li>
-            ))
-          : items.map((item, index) => (
-              <li
-                className={
-                  'list-group-item' + (item === selectedItem ? ' active' : '')
-                }
-                key={items[index][valueProperty]}
-                onClick={() => onItemSelect(items[index])}
-                role='button'
-              >
-                {items[index][contentProperty]}
-              </li>
-            ))}
+        {Object.keys(items).map((item) => (
+          <li
+            key={items[item][valueProperty]}
+            className={
+              'list-group-item' +
+              (items[item] === selectedItem ? ' active' : '')
+            }
+            onClick={() => onItemSelect(items[item])}
+            role='button'
+          >
+            {items[item][contentProperty]}
+          </li>
+        ))}
       </ul>
-    </div>
+    )
+  }
+  return (
+    <ul className='list-group'>
+      {items.map((item) => (
+        <li
+          key={item[valueProperty]}
+          className={
+            'list-group-item' + (item === selectedItem ? ' active' : '')
+          }
+          onClick={() => onItemSelect(item)}
+          role='button'
+        >
+          {item[contentProperty]}
+        </li>
+      ))}
+    </ul>
   )
 }
 GroupList.defaultProps = {
@@ -58,4 +55,5 @@ GroupList.propTypes = {
   onItemSelect: PropTypes.func,
   selectedItem: PropTypes.object
 }
+
 export default GroupList

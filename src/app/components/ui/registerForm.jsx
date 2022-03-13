@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import TextField from '../common/form/textField'
 import { validator } from '../../utils/validator'
+import TextField from '../common/form/textField'
 import api from '../../api'
 import SelectField from '../common/form/selectField'
 import RadioField from '../common/form/radioField'
-import MultiselectField from '../common/form/multiselectField'
-import CheckboxField from '../common/form/checkboxField'
+import MultiSelectField from '../common/form/multiSelectField'
+import CheckBoxField from '../common/form/checkBoxField'
 
 const RegisterForm = () => {
-  const [qualities, setQualities] = useState({})
   const [data, setData] = useState({
     email: '',
     password: '',
@@ -17,141 +16,131 @@ const RegisterForm = () => {
     qualities: [],
     licence: false
   })
+  const [qualities, setQualities] = useState({})
+  const [professions, setProfession] = useState([])
   const [errors, setErrors] = useState({})
-  const [professions, setProfessions] = useState()
-
   useEffect(() => {
-    api.professions.fetchAll().then((data) => {
-      const updatedProfessions = Object.keys(data).map((profession) => ({
-        name: data[profession].name,
-        _id: data[profession]._id
-      }))
-      setProfessions(updatedProfessions)
-    })
-    api.qualities.fetchAll().then((data) => {
-      const updatedQualities = Object.keys(data).map((quality) => ({
-        _id: data[quality]._id,
-        name: data[quality].name,
-        color: data[quality].color
-      }))
-      setQualities(updatedQualities)
-    })
+    api.professions.fetchAll().then((data) => setProfession(data))
+    api.qualities.fetchAll().then((data) => setQualities(data))
   }, [])
-
   const handleChange = (target) => {
-    setData((prevState) => ({ ...prevState, [target.name]: target.value }))
+    setData((prevState) => ({
+      ...prevState,
+      [target.name]: target.value
+    }))
   }
   const validatorConfig = {
     email: {
-      isRequired: { message: 'Электронная почта обязательна для заполнения' },
-      isEmail: { message: 'Email введен некорректно' }
+      isRequired: {
+        message: 'Электронная почта обязательна для заполнения'
+      },
+      isEmail: {
+        message: 'Email введен некорректно'
+      }
     },
     password: {
-      isRequired: { message: 'Пароль обязателен для заполнения' },
-      isCapital: {
-        message: 'Пароль должен содержать как минимум одну заглавную букву'
+      isRequired: {
+        message: 'Пароль обязателен для заполнения'
       },
-      isContainDigits: {
-        message: 'Пароль должен содержать как минимум один символ'
+      isCapitalSymbol: {
+        message: 'Пароль должен содержать хотя бы одну заглавную букву'
+      },
+      isContainDigit: {
+        message: 'Пароль должен содержать хотя бы одно число'
       },
       min: {
-        message: 'Пароль должен быть больше 8 символов',
+        message: 'Пароль должен состоять минимум из 8 символов',
         value: 8
       }
     },
     profession: {
-      isRequired: { message: 'Пожалуйста, выберите профессию' }
+      isRequired: {
+        message: 'Обязательно выберите вашу профессию'
+      }
     },
     licence: {
       isRequired: {
         message:
-          'Вы не можете использовать наш сервис без подтвержения лицензионного соглашения'
+          'Вы не можете использовать наш сервис без подтверждения лицензионного соглашения'
       }
     }
   }
   useEffect(() => {
     validate()
   }, [data])
-  const isValid = Object.keys(errors).length === 0
   const validate = () => {
     const errors = validator(data, validatorConfig)
-    console.log(data)
     setErrors(errors)
     return Object.keys(errors).length === 0
   }
-  const handleSubmit = (event) => {
-    event.preventDefault()
+  const isValid = Object.keys(errors).length === 0
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
     const isValid = validate()
-    if (!isValid) {
-      return
-    }
+    if (!isValid) return
     console.log(data)
   }
-
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          label='Электронная почта:'
-          name='email'
-          onChange={handleChange}
-          value={data.email}
-          error={errors.email}
-        ></TextField>
-        <TextField
-          label='Пароль:'
-          type='password'
-          name='password'
-          onChange={handleChange}
-          value={data.password}
-          error={errors.password}
-        ></TextField>
-        {professions && (
-          <SelectField
-            label='Профессия:'
-            onChange={handleChange}
-            value={data.profession}
-            error={errors.profession}
-            options={professions}
-            defaultOption='Choose...'
-            name='profession'
-          />
-        )}
-        <RadioField
-          label='Укажите пол:'
-          onChange={handleChange}
-          value={data.sex}
-          name='sex'
-          options={[
-            { name: 'Male', value: 'male' },
-            { name: 'Female', value: 'female' },
-            { name: 'Other', value: 'other' }
-          ]}
-        />
-        <MultiselectField
-          onChange={handleChange}
-          options={qualities}
-          defaultValue={data.qualities}
-          name='qualities'
-          label='Выберите ваши качества:'
-        />
-        <CheckboxField
-          onChange={handleChange}
-          value={data.licence}
-          name='licence'
-          error={errors.licence}
-        >
-          Подтвердить <a>лицензионное соглашение?</a>
-        </CheckboxField>
-        <button
-          type='submit'
-          className='btn btn-primary w-100 mx-auto'
-          disabled={!isValid}
-        >
-          Submit
-        </button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <TextField
+        label='Электронная почта'
+        name='email'
+        value={data.email}
+        onChange={handleChange}
+        error={errors.email}
+      />
+      <TextField
+        label='Пароль'
+        type='password'
+        name='password'
+        value={data.password}
+        onChange={handleChange}
+        error={errors.password}
+      />
+      <SelectField
+        label='Выбери свою профессию'
+        defaultOption='Choose...'
+        options={professions}
+        name='profession'
+        onChange={handleChange}
+        value={data.profession}
+        error={errors.profession}
+      />
+      <RadioField
+        options={[
+          { name: 'Male', value: 'male' },
+          { name: 'Female', value: 'female' },
+          { name: 'Other', value: 'other' }
+        ]}
+        value={data.sex}
+        name='sex'
+        onChange={handleChange}
+        label='Выберите ваш пол'
+      />
+      <MultiSelectField
+        options={qualities}
+        onChange={handleChange}
+        defaultValue={data.qualities}
+        name='qualities'
+        label='Выберите ваши качества'
+      />
+      <CheckBoxField
+        value={data.licence}
+        onChange={handleChange}
+        name='licence'
+        error={errors.licence}
+      >
+        Подтвердить <a>лицензионное соглашение</a>
+      </CheckBoxField>
+      <button
+        className='btn btn-primary w-100 mx-auto'
+        type='submit'
+        disabled={!isValid}
+      >
+        Submit
+      </button>
+    </form>
   )
 }
 

@@ -1,21 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { TableBody, TableHeader } from '.'
+import TableBody from './tableBody'
+import TableHeader from './tableHeader'
 
-export const Table = ({ onSort, currentSort, columns, data, children }) => {
+const Table = ({ onSort, selectedSort, columns, data, children }) => {
   return (
-    <table
-      className='table table-hover'
-      style={{
-        width: '80vw',
-        backgroundColor: 'white',
-        borderRadius: '10px 10px 0 0',
-        boxShadow: '8px 8px 1px 1px rgba(0, 0, 0, .2)'
-      }}
-    >
+    <table className='table'>
       {children || (
         <>
-          <TableHeader {...{ onSort, currentSort, columns }} />
+          <TableHeader {...{ onSort, selectedSort, columns }} />
           <TableBody {...{ columns, data }} />
         </>
       )}
@@ -24,9 +17,10 @@ export const Table = ({ onSort, currentSort, columns, data, children }) => {
 }
 Table.propTypes = {
   onSort: PropTypes.func,
-  currentSort: PropTypes.object,
+  selectedSort: PropTypes.object,
   columns: PropTypes.object,
   data: PropTypes.array,
   children: PropTypes.array
 }
+
 export default Table

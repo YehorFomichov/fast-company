@@ -23,7 +23,10 @@ const RadioField = ({ options, name, onChange, value, label }) => {
               value={option.value}
               onChange={handleChange}
             />
-            <label className='form-check-label' htmlFor='inlineRadio1'>
+            <label
+              className='form-check-label'
+              htmlFor={option.name + '_' + option.value}
+            >
               {option.name}
             </label>
           </div>
@@ -32,11 +35,13 @@ const RadioField = ({ options, name, onChange, value, label }) => {
     </div>
   )
 }
+
 RadioField.propTypes = {
-  label: PropTypes.string,
   options: PropTypes.array,
   name: PropTypes.string,
   onChange: PropTypes.func,
-  value: PropTypes.string
+  value: PropTypes.string,
+  label: PropTypes.string
 }
+
 export default RadioField

@@ -1,40 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-const SearchStatus = ({ numberOfUsers }) => {
-  const getCase = (number) => {
-    const lastDigit = number % 10
-    if (number === 1) {
-      return `${number} человек тусанет с тобой сегодня`
-    } else if (number >= 12 && number <= 12) {
-      return `${number} человек тусанут с тобой сегодня`
-    } else if (number > 1 && lastDigit >= 2 && lastDigit <= 4) {
-      return `${number} человека тусанут с тобой сегодня`
-    } else if (number === 0) {
-      return 'Никто с тобой не тусанет :('
-    } else return `${number} человек тусанут с тобой сегодня`
+const SearchStatus = ({ length }) => {
+  const renderPhrase = (number) => {
+    const lastOne = Number(number.toString().slice(-1))
+    if (number > 4 && number < 15) {
+      return 'человек тусанет'
+    }
+    if (lastOne === 1) return 'человек тусанет'
+    if ([2, 3, 4].indexOf(lastOne) >= 0) return 'человека тусанут'
+    return 'человек тусанет'
   }
   return (
-    <div className='d-flex justify-content-center'>
-      <span
-        style={{
-          textAlign: 'center',
-          backgroundColor: '#e2e5eb',
-          fontSize: '20px',
-          borderRadius: '10px',
-          fontWeight: 700,
-          width: '80vw',
-          color: 'black',
-          boxShadow: '8px 8px 1px 1px rgba(0, 0, 0, 0.2)',
-          marginBottom: '5px'
-        }}
-      >
-        {getCase(numberOfUsers)}
+    <h2>
+      <span className={'badge ' + (length > 0 ? 'bg-primary' : 'bg-danger')}>
+        {length > 0
+          ? `${length + ' ' + renderPhrase(length)}   с тобой сегодня`
+          : 'Никто с тобой не тусанет'}
       </span>
-    </div>
+    </h2>
   )
 }
 SearchStatus.propTypes = {
-  numberOfUsers: PropTypes.number.isRequired,
-  color: PropTypes.string
+  length: PropTypes.number
 }
+
 export default SearchStatus

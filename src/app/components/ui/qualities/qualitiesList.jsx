@@ -1,23 +1,19 @@
 import React from 'react'
-const QuailitiesList = ({ qualities }) => {
-  const getQualityClass = (quality) => {
-    let qualities = 'badge p-2 m-1 bg-'
-    qualities += quality
-    return qualities
-  }
-  const renderQualities = (qualities) => {
-    return qualities.map((quality) => (
-      <span
-        key={quality._id}
-        className={getQualityClass(quality.color)}
-        badge-padding='10px'
-      >
-        {quality.name}
-      </span>
-    ))
-  }
+import PropTypes from 'prop-types'
+import Quality from './quality'
 
-  return renderQualities(qualities)
+const QualitiesList = ({ qualities }) => {
+  return (
+    <>
+      {qualities.map((qual) => (
+        <Quality key={qual._id} {...qual} />
+      ))}
+    </>
+  )
 }
 
-export default QuailitiesList
+QualitiesList.propTypes = {
+  qualities: PropTypes.array
+}
+
+export default QualitiesList

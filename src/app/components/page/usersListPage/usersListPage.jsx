@@ -1,126 +1,115 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { paginate } from '../../../utils/paginate'
 import Pagination from '../../common/pagination'
-import paginate from '../../../utils/paginate'
-import GroupList from '../../common/groupList'
 import api from '../../../api'
+import GroupList from '../../common/groupList'
 import SearchStatus from '../../ui/searchStatus'
-import UsersTable from '../../ui/usersTable'
+import UserTable from '../../ui/usersTable'
 import _ from 'lodash'
-import { useParams } from 'react-router-dom'
-import UserPage from '../userPage'
-import TextField from '../../common/form/textField'
-
 const UsersListPage = () => {
-  const { userId } = useParams()
-  const [users, setUsers] = useState()
-  const [professions, setProfessions] = useState()
   const [currentPage, setCurrentPage] = useState(1)
+  const [professions, setProfession] = useState()
+  const [searchQuery, setSearchQuery] = useState('')
   const [selectedProf, setSelectedProf] = useState()
-  const [searchByName, setSearchByName] = useState('')
-  const [sortBy, setSortBy] = useState({
-    path: 'name',
-    order: 'asc'
-  })
-  const pageSize = 10
+  const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' })
+  const pageSize = 8
 
-  const handleProfessionSelect = (item) => {
-    setSelectedProf(item)
-    setSearchByName('')
+  const [users, setUsers] = useState()
+  useEffect(() => {
+    api.users.fetchAll().then((data) => setUsers(data))
+  }, [])
+  const handleDelete = (userId) => {
+    setUsers(users.filter((user) => user._id !== userId))
   }
-  const handlePageChange = (pageIndex) => {
-    setCurrentPage(pageIndex)
+  const handleToggleBookMark = (id) => {
+    const newArray = users.map((user) => {
+      if (user._id === id) {
+        return { ...user, bookmark: !user.bookmark }
+      }
+      return user
+    })
+    setUsers(newArray)
   }
-  const handleSortByProfession = (item) => {
-    setSortBy(item)
-  }
-  const handleSortByName = (target) => {
-    setSearchByName(target.value)
-    setSelectedProf('')
-  }
+
+  useEffect(() => {
+    api.professions.fetchAll().then((data) => setProfession(data))
+  }, [])
 
   useEffect(() => {
     setCurrentPage(1)
-  }, [selectedProf])
-  useEffect(() => {
-    api.professions.fetchAll().then((data) => {
-      setProfessions(data)
-    })
-  }, [])
+  }, [selectedProf, searchQuery])
 
-  useEffect(() => {
-    api.users.fetchAll().then((data) => {
-      setUsers(data)
-    })
-  }, [])
-  const handleDelete = (userId) => {
-    setUsers((prevState) => prevState.filter((user) => userId !== user._id))
+  const handleProfessionSelect = (item) => {
+    if (searchQuery !== '') setSearchQuery('')
+    setSelectedProf(item)
   }
-  const toggleHandleBookmark = (userId) => {
-    setUsers((prevState) =>
-      prevState.map((user) => {
-        if (userId === user._id) {
-          user.bookmark = !user.bookmark
-        }
-        return user
-      })
-    )
+  const handleSearchQuery = ({ target }) => {
+    setSelectedProf(undefined)
+    setSearchQuery(target.value)
   }
 
-  if (userId) {
-    return <UserPage userId={userId} onToggleBookmark={toggleHandleBookmark} />
-  } else if (users && !userId) {
-    const filteredUsers =
-      selectedProf && selectedProf._id
-        ? users.filter((user) => user.profession._id === selectedProf._id)
-        : users.filter((user) =>
-            user.name.toLowerCase().includes(searchByName.toLocaleLowerCase())
-          )
+  const handlePageChange = (pageIndex) => {
+    setCurrentPage(pageIndex)
+  }
+  const handleSort = (item) => {
+    setSortBy(item)
+  }
+
+  if (users) {
+    const filteredUsers = searchQuery
+      ? users.filter(
+          (user) =>
+            user.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
+        )
+      : selectedProf
+      ? users.filter(
+          (user) =>
+            JSON.stringify(user.profession) === JSON.stringify(selectedProf)
+        )
+      : users
+
     const count = filteredUsers.length
     const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order])
-    const userCrop = paginate(sortedUsers, currentPage, pageSize)
+    const usersCrop = paginate(sortedUsers, currentPage, pageSize)
     const clearFilter = () => {
-      setSelectedProf(undefined)
+      setSelectedProf()
     }
+
     return (
-      <div
-        className='d-flex table-sm'
-        style={{
-          paddingTop: '7vh',
-          height: '100vh',
-          backgroundPosition: 'center'
-        }}
-      >
+      <div className='d-flex'>
         {professions && (
           <div className='d-flex flex-column flex-shrink-0 p-3'>
             <GroupList
+              selectedItem={selectedProf}
               items={professions}
               onItemSelect={handleProfessionSelect}
-              selectedItem={selectedProf}
             />
             <button className='btn btn-secondary mt-2' onClick={clearFilter}>
+              {' '}
               Очистить
             </button>
           </div>
         )}
         <div className='d-flex flex-column'>
-          <SearchStatus numberOfUsers={count} />
-          <form>
-            <TextField
-              label='Поиск'
-              name='search'
-              value={searchByName}
-              error=''
-              onChange={handleSortByName}
-            />
-          </form>
-          <UsersTable
-            users={userCrop}
-            onDelete={handleDelete}
-            currentSort={sortBy}
-            onSort={handleSortByProfession}
-            onToggleBookmark={toggleHandleBookmark}
+          <SearchStatus length={count} />
+          <input
+            type='text'
+            name='searchQuery'
+            placeholder='Search...'
+            onChange={handleSearchQuery}
+            value={searchQuery}
           />
-          <div className='d-flex-justify-content-center'>
+          {count > 0 && (
+            <UserTable
+              users={usersCrop}
+              onSort={handleSort}
+              selectedSort={sortBy}
+              onDelete={handleDelete}
+              onToggleBookMark={handleToggleBookMark}
+            />
+          )}
+          <div className='d-flex justify-content-center'>
             <Pagination
               itemsCount={count}
               pageSize={pageSize}
@@ -132,7 +121,10 @@ const UsersListPage = () => {
       </div>
     )
   }
-  return 'Loading...'
+  return 'loading...'
+}
+UsersListPage.propTypes = {
+  users: PropTypes.array
 }
 
 export default UsersListPage

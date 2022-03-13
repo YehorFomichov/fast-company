@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { displayDate } from '../../../utils/displayDate'
-
 import API from '../../../api'
 const Comment = ({
   content,

@@ -1,28 +1,29 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+
 const TextField = ({ label, type, name, value, onChange, error }) => {
-  const getInputClasses = () => {
-    return 'form-control' + (error ? ' is-invalid' : '')
-  }
   const [showPassword, setShowPassword] = useState(false)
+
   const handleChange = ({ target }) => {
     onChange({ name: target.name, value: target.value })
   }
-
+  const getInputClasses = () => {
+    return 'form-control' + (error ? ' is-invalid' : '')
+  }
   const toggleShowPassword = () => {
-    setShowPassword((prevstate) => !prevstate)
+    setShowPassword((prevState) => !prevState)
   }
   return (
     <div className='mb-4'>
       <label htmlFor={name}>{label}</label>
       <div className='input-group has-validation'>
         <input
-          className={getInputClasses()}
           type={showPassword ? 'text' : type}
           id={name}
           name={name}
           value={value}
           onChange={handleChange}
+          className={getInputClasses()}
         />
         {type === 'password' && (
           <button
@@ -30,7 +31,7 @@ const TextField = ({ label, type, name, value, onChange, error }) => {
             type='button'
             onClick={toggleShowPassword}
           >
-            <i className={'bi bi-eye' + (showPassword ? '-fill' : '')}></i>
+            <i className={'bi bi-eye' + (showPassword ? '-slash' : '')}></i>
           </button>
         )}
         {error && <div className='invalid-feedback'>{error}</div>}
