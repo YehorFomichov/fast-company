@@ -11,13 +11,20 @@ const SearchStatus = ({ length }) => {
     return 'человек тусанет'
   }
   return (
-    <h2>
-      <span className={'badge ' + (length > 0 ? 'bg-primary' : 'bg-danger')}>
-        {length > 0
-          ? `${length + ' ' + renderPhrase(length)}   с тобой сегодня`
-          : 'Никто с тобой не тусанет'}
-      </span>
-    </h2>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center'
+      }}
+    >
+      <h2>
+        <span className={'badge ' + (length > 0 ? 'bg-primary' : 'bg-danger')}>
+          {length > 0
+            ? `${length + ' ' + renderPhrase(length)}   с тобой сегодня`
+            : 'Никто с тобой не тусанет'}
+        </span>
+      </h2>
+    </div>
   )
 }
 SearchStatus.propTypes = {
