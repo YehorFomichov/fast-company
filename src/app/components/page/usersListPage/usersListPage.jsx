@@ -7,8 +7,12 @@ import SearchStatus from '../../ui/searchStatus'
 import UserTable from '../../ui/usersTable'
 import _ from 'lodash'
 import { useUser } from '../../../hooks/useUsers'
-import { useProfession } from '../../../hooks/useProfession'
 import { useAuth } from '../../../hooks/useAuth'
+import { useSelector } from 'react-redux'
+import {
+  getProfessions,
+  getProfessionsLoadingStatus
+} from '../../../store/professions'
 const UsersListPage = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [searchQuery, setSearchQuery] = useState('')
@@ -17,8 +21,8 @@ const UsersListPage = () => {
   const pageSize = 8
   const { currentUser } = useAuth()
   const { users } = useUser()
-  const { professions, isLoading: professionsLoading } = useProfession()
-
+  const professions = useSelector(getProfessions())
+  const professionsLoading = useSelector(getProfessionsLoadingStatus())
   const handleToggleBookMark = (id) => {
     const newArray = users.map((user) => {
       if (user._id === id) {

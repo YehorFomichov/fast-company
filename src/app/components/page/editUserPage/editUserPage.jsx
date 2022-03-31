@@ -6,21 +6,30 @@ import SelectField from '../../common/form/selectField'
 import RadioField from '../../common/form/radioField'
 import MultiSelectField from '../../common/form/multiSelectField'
 import BackHistoryButton from '../../common/backButton'
-import { useProfession } from '../../../hooks/useProfession'
-import { useQualities } from '../../../hooks/useQualities'
 import { useAuth } from '../../../hooks/useAuth'
+import { useSelector } from 'react-redux'
+import {
+  getQualities,
+  getQualititesLoadingStatus
+} from '../../../store/qualities'
+import {
+  getProfessions,
+  getProfessionsLoadingStatus
+} from '../../../store/professions'
 
 const EditUserPage = () => {
   const [isLoading, setIsLoading] = useState(true)
   const history = useHistory()
   const [data, setData] = useState()
   const { currentUser, updateUserData } = useAuth()
-  const { professions, isLoading: isLoadingPr } = useProfession()
+  const professions = useSelector(getProfessions())
+  const professionsLoading = useSelector(getProfessionsLoadingStatus())
   const professionsList = professions.map((p) => ({
     name: p.name,
     value: p._id
   }))
-  const { qualities, isLoading: isLoadingQ } = useQualities()
+  const qualitiesLoading = useSelector(getQualititesLoadingStatus())
+  const qualities = useSelector(getQualities())
   const qualitiesList = qualities.map((q) => ({
     label: q.name,
     value: q._id
@@ -55,13 +64,13 @@ const EditUserPage = () => {
     }))
   }
   useEffect(() => {
-    if (!isLoadingPr && !isLoadingQ && currentUser && !data) {
+    if (!professionsLoading && !qualitiesLoading && currentUser && !data) {
       setData({
         ...currentUser,
         qualities: transformData(currentUser.qualities)
       })
     }
-  }, [isLoadingPr, isLoadingQ, currentUser, data])
+  }, [professionsLoading, qualitiesLoading, currentUser, data])
   useEffect(() => {
     if (data && isLoading) {
       setIsLoading(false)
