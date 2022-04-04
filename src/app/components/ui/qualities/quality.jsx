@@ -1,16 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-const Quality = ({ color, name, _id }) => {
+import { getQualitiesByIds } from '../../../store/qualities'
+import { useSelector } from 'react-redux'
+
+const Quality = ({ qual }) => {
+  const quality = useSelector(getQualitiesByIds(qual))
   return (
-    <span className={'badge m-1 bg-' + color} key={_id}>
-      {name}
+    <span className={'badge m-1 bg-' + quality.color} key={quality._id}>
+      {quality.name}
     </span>
   )
 }
 Quality.propTypes = {
-  color: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  _id: PropTypes.string.isRequired
+  qual: PropTypes.string
 }
 
 export default Quality

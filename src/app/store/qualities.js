@@ -5,7 +5,8 @@ const qualitiesSlice = createSlice({
   initialState: {
     entities: null,
     isLoading: true,
-    error: null
+    error: null,
+    lastFetch: null
   },
   reducers: {
     qualiesRequested: (state) => {
@@ -14,6 +15,7 @@ const qualitiesSlice = createSlice({
     qualitiesReceived: (state, action) => {
       state.entities = action.payload
       state.isLoading = false
+      state.lastFetch = Date.now()
     },
     qualitiesRequestFailed: (state, action) => {
       state.error = action.payload
@@ -26,18 +28,29 @@ const { reducer: qualitiesReducer } = qualitiesSlice
 const { qualiesRequested, qualitiesReceived, qualitiesRequestFailed } =
   qualitiesSlice.actions
 
-export const loadQualitiesList = () => async (dispatch) => {
-  dispatch(qualiesRequested())
-  try {
-    const { content } = await qualityService.get()
-    dispatch(qualitiesReceived(content))
-  } catch (error) {
-    dispatch(qualitiesRequestFailed(error.message))
+function isOutdated(date) {
+  if (Date.now() - date > 10 * 60 * 1000) return true
+  return false
+}
+
+export const loadQualitiesList = () => async (dispatch, getState) => {
+  const { lastFetch } = getState().qualities
+  if (isOutdated(lastFetch)) {
+    dispatch(qualiesRequested())
+    try {
+      const { content } = await qualityService.get()
+      dispatch(qualitiesReceived(content))
+    } catch (error) {
+      dispatch(qualitiesRequestFailed(error.message))
+    }
   }
 }
 export const getQualities = () => (state) => state.qualities.entities
 export const getQualititesLoadingStatus = () => (state) =>
   state.qualities.isLoading
-export const getUserQuality = (id) => (state) =>
-  state.qualities.entities.find((item) => item._id === id)
+export const getQualitiesByIds = (id) => (state) => {
+  if (state.qualities.entities) {
+    return state.qualities.entities.find((item) => item._id === id)
+  }
+}
 export default qualitiesReducer

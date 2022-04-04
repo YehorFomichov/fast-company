@@ -6,21 +6,20 @@ import GroupList from '../../common/groupList'
 import SearchStatus from '../../ui/searchStatus'
 import UserTable from '../../ui/usersTable'
 import _ from 'lodash'
-import { useUser } from '../../../hooks/useUsers'
-import { useAuth } from '../../../hooks/useAuth'
 import { useSelector } from 'react-redux'
 import {
   getProfessions,
   getProfessionsLoadingStatus
 } from '../../../store/professions'
+import { getCurrentUserId, getUsersList } from '../../../store/users'
 const UsersListPage = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedProf, setSelectedProf] = useState()
   const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' })
   const pageSize = 8
-  const { currentUser } = useAuth()
-  const { users } = useUser()
+  const currentUserId = useSelector(getCurrentUserId())
+  const users = useSelector(getUsersList())
   const professions = useSelector(getProfessions())
   const professionsLoading = useSelector(getProfessionsLoadingStatus())
   const handleToggleBookMark = (id) => {
@@ -62,11 +61,11 @@ const UsersListPage = () => {
       : selectedProf
       ? data.filter(
           (user) =>
-            JSON.stringify(user.profession) === JSON.stringify(selectedProf)
+            JSON.stringify(user.profession) === JSON.stringify(selectedProf._id)
         )
       : data
     return filteredUsers.filter((u) => {
-      return u._id !== currentUser._id
+      return u._id !== currentUserId
     })
   }
   const filteredUsers = filterUsers(users)
