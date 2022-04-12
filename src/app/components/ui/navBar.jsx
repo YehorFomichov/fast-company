@@ -6,17 +6,21 @@ import NavProfile from './navProfile'
 const NavBar = () => {
   const isLoggedIn = useSelector(getIsLoggedIn())
   return (
-    <nav className='navbar bg-light mb-3'>
+    <nav className='navbar mb-3' style={{ backgroundColor: '#3c3d41' }}>
       <div className='container-fluid'>
         <ul className='nav'>
           <li className='nav-item'>
-            <Link className='nav-link ' aria-current='page' to='/'>
+            <Link className='nav-link text-white' aria-current='page' to='/'>
               Main
             </Link>
           </li>
           {isLoggedIn && (
             <li className='nav-item'>
-              <Link className='nav-link ' aria-current='page' to='/users'>
+              <Link
+                className='nav-link text-white'
+                aria-current='page'
+                to='/users'
+              >
                 Users
               </Link>
             </li>
@@ -26,7 +30,11 @@ const NavBar = () => {
           {isLoggedIn ? (
             <NavProfile />
           ) : (
-            <Link className='nav-link ' aria-current='page' to='/login'>
+            <Link
+              className='nav-link text-white'
+              aria-current='page'
+              to='/login'
+            >
               Login
             </Link>
           )}

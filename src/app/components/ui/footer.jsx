@@ -22,7 +22,7 @@ const Footer = () => {
 
             <p>© 2022 Yehor, All rights reserved ;)</p>
           </div>
-          <div className='col-md-2 footer-nav animated fadeInUp'>
+          <div className='col-4 footer-nav animated fadeInUp'>
             <h4>Contact me at:</h4>
             <div className='col'>
               <ul className='pages'>

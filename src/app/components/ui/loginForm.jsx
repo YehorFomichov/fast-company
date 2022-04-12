@@ -74,11 +74,13 @@ const LoginForm = () => {
         value={data.email}
         onChange={handleChange}
         error={errors.email}
+        defaultValue='test@gmail.com'
       />
       <TextField
         label='Пароль'
         type='password'
         name='password'
+        defaultValue='Test1234'
         value={data.password}
         onChange={handleChange}
         error={errors.password}
@@ -92,7 +94,7 @@ const LoginForm = () => {
         type='submit'
         disabled={!isValid}
       >
-        Submit
+        Click to login
       </button>
     </form>
   )

@@ -18,7 +18,14 @@ const UserTable = ({
     name: {
       path: 'name',
       name: 'Имя',
-      component: (user) => <Link to={`/users/${user._id}`}>{user.name}</Link>
+      component: (user) => (
+        <Link
+          className='text-dark text-decoration-none'
+          to={`/users/${user._id}`}
+        >
+          {user.name}
+        </Link>
+      )
     },
     qualities: {
       name: 'Качества',
@@ -45,12 +52,14 @@ const UserTable = ({
     }
   }
   return (
-    <Table
-      onSort={onSort}
-      selectedSort={selectedSort}
-      columns={columns}
-      data={users}
-    />
+    <div className='container-fluid'>
+      <Table
+        onSort={onSort}
+        selectedSort={selectedSort}
+        columns={columns}
+        data={users}
+      />
+    </div>
   )
 }
 
