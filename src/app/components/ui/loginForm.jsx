@@ -22,6 +22,21 @@ const LoginForm = () => {
       [target.name]: target.value
     }))
   }
+  const handleDemoLogin = () => {
+    const redirect = history.location.state
+      ? history.location.state.form.pathname
+      : '/'
+    dispatch(
+      logIn({
+        payload: {
+          email: 'test@gmail.com',
+          password: 'Test1234',
+          stayOn: false
+        },
+        redirect
+      })
+    )
+  }
   const validatorConfig = {
     email: {
       isRequired: {
@@ -94,7 +109,13 @@ const LoginForm = () => {
         type='submit'
         disabled={!isValid}
       >
-        Click to login
+        Login
+      </button>
+      <button
+        className='btn btn-outline-success w-100 my-2 mx-auto'
+        onClick={handleDemoLogin}
+      >
+        Demo Login
       </button>
     </form>
   )
